@@ -1,0 +1,8 @@
+<configuration>
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+
+    </appender>
+    <appender name="fileLog" class="ch.qos.logback.core.FileAppender">
+
+    </appender>
+</configuration>
