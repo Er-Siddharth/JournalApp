@@ -97,8 +97,8 @@ public class UserService {
             return false;
         }
     }
-    public static boolean isValidUsername(String name)
-    {
+
+    public  boolean isValidUsername(String name) {
 
         // Regex to check valid username.
         String regex = "^[A-Za-z]\\w{5,29}$";
@@ -121,5 +121,7 @@ public class UserService {
         // matched the ReGex
         return m.matches();
     }
+
+    public
 
 }
