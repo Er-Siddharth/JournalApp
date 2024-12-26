@@ -1,7 +1,10 @@
 package com.AsiaAutmation.JournalApp.Controller;
 
 import com.AsiaAutmation.JournalApp.Entity.Users;
+import com.AsiaAutmation.JournalApp.Service.Current;
 import com.AsiaAutmation.JournalApp.Service.UserService;
+import com.AsiaAutmation.JournalApp.Service.WeatherResponse;
+import com.AsiaAutmation.JournalApp.Service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +19,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    WeatherService weatherService;
 
     @GetMapping("/getAllUsers")
     public List<Users> getAllUsers(){
@@ -47,7 +53,12 @@ public class UserController {
     @GetMapping("/greetings")
     public ResponseEntity<?> greetings(){
         String userName  = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok().body("Hello"+ userName);
+        String response="";
+        WeatherResponse weatherResponse = weatherService.getResponse("Pune");
+        if(weatherResponse != null) {
+            response = response+"today it feels like"+weatherResponse.getCurrent().getFeelslike();
+        }
+        return ResponseEntity.ok().body("Hello"+ userName+response);
     }
 
 }
