@@ -32,6 +32,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
     @DeleteMapping("/deleteUser")
     public ResponseEntity<?> deleteUser(){
         String userName  = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -41,6 +42,12 @@ public class UserController {
         else {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    @GetMapping("/greetings")
+    public ResponseEntity<?> greetings(){
+        String userName  = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok().body("Hello"+ userName);
     }
 
 }
