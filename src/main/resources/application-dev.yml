@@ -23,3 +23,6 @@ server:
 #      AsiaAutmation:
 #        JournalApp:
 #          UserService: DEBUG
+weather:
+  api:
+    key: 5cb41ba4e7739d0f4b9275c05ead2854
