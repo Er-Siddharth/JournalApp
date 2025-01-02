@@ -1,9 +1,6 @@
 package com.AsiaAutmation.JournalApp.Entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,6 +13,8 @@ import java.util.List;
 @Document(collection = "users")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
     @Id
     private ObjectId id;
@@ -27,5 +26,7 @@ public class Users {
     @DBRef
     private List<JournalEntry> entries;
     private List<String> roles;
+    private String email;
+    private boolean sentimentAnalysis;
 
 }
