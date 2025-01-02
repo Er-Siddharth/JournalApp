@@ -1,5 +1,8 @@
 package com.AsiaAutmation.JournalApp.Service;
 
+import com.AsiaAutmation.JournalApp.Cache.AppCache;
+import com.AsiaAutmation.JournalApp.Constants.Keys;
+import com.AsiaAutmation.JournalApp.Constants.PlaceHolders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,11 +17,13 @@ public class WeatherService {
     @Autowired
     private RestTemplate restTemplate;
     @Value("${weather.api.key}")
-    private String API_KEY;
-    private static final String API = "http://api.weatherstack.com/current?access_key=API_KEY&query=CITY";
+    private String apiKey;
+
+    @Autowired
+    AppCache appCache;
 
     public WeatherResponse getResponse(String city){
-        String finalApi = API.replace("API_KEY",API_KEY).replace("CITY",city);
+        String finalApi = appCache.getAppCache().get(Keys.WEATHER_API.toString()).replace(PlaceHolders.API_KEY,apiKey).replace(PlaceHolders.CITY,city);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("username","admin");
         httpHeaders.add("password","admin");
