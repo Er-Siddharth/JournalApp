@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,5 +28,6 @@ public class AppCache {
         for(ConfigJournalApp entry : allEnrty){
             appCache.put(entry.getKey(), entry.getValue());
         }
+        System.out.println("Cache-Reloaded "+ LocalDateTime.now());
     }
 }
