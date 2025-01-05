@@ -23,6 +23,7 @@ public class UserService {
     private static final PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
     @Autowired
     UserRepository userRepository;
+
     public Users addUser(Users user){
         if(!isValidUsername(user.getUserName())) throw new IllegalArgumentException("Invalid UserName");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
