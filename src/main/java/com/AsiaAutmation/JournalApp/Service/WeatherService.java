@@ -1,7 +1,7 @@
 package com.AsiaAutmation.JournalApp.Service;
 
 import com.AsiaAutmation.JournalApp.Cache.AppCache;
-import com.AsiaAutmation.JournalApp.Constants.Keys;
+import com.AsiaAutmation.JournalApp.Enums.Keys;
 import com.AsiaAutmation.JournalApp.Constants.PlaceHolders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
