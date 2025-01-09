@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -19,8 +18,9 @@ public class RedisService {
         Object o = redisTemplate.opsForValue().get("Weather_of_"+key);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+            if(o==null) return null;
             return objectMapper.readValue(o.toString(),entityClass);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             log.error("Exception Occured : "+e);
             return null;
         }
