@@ -28,5 +28,6 @@ public class Users {
     private List<String> roles;
     private String email;
     private boolean sentimentAnalysis;
+    private String city;
 
 }
