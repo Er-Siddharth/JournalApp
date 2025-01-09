@@ -16,7 +16,7 @@ public class RedisService {
     RedisTemplate redisTemplate;
 
     public <T> T get(String key, Class<T> entityClass){
-        Object o = redisTemplate.opsForValue().get(key);
+        Object o = redisTemplate.opsForValue().get("Weather_of_"+key);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(o.toString(),entityClass);
