@@ -20,9 +20,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    WeatherService weatherService;
-
     @GetMapping("/getAllUsers")
     public List<Users> getAllUsers(){
         return userService.getAllUsers();
@@ -53,12 +50,7 @@ public class UserController {
     @GetMapping("/greetings")
     public ResponseEntity<?> greetings(){
         String userName  = SecurityContextHolder.getContext().getAuthentication().getName();
-        String response="";
-        WeatherResponse weatherResponse = weatherService.getResponse("Pune");
-        if(weatherResponse != null) {
-            response = response+"today it feels like"+weatherResponse.getCurrent().getFeelslike();
-        }
-        return ResponseEntity.ok().body("Hello"+ userName+response);
+        return   userService.greetings(userName);
     }
 
 }
