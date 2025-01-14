@@ -130,7 +130,7 @@ public class UserService {
     public ResponseEntity<?> greetings(String userName){
         String city = this.getUserByUserName(userName).getCity();
         String response="";
-        if(!city.isEmpty()){
+        if(city!=null && !city.isEmpty()){
             WeatherResponse weatherResponse = weatherService.getResponse(city);
             if(weatherResponse != null) {
                 response = response+" today it feels like "+weatherResponse.getCurrent().getFeelslike();
