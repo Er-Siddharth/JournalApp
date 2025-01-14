@@ -1,6 +1,5 @@
 spring:
-  redis:
-    uri: redis-cli -u redis://Siddharth:Sid@391999@redis-15713.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:15713
+
   application:
     name: JournalApp
   data:
@@ -8,6 +7,12 @@ spring:
       uri: mongodb+srv://Siddharth:Sid_391999@cluster0.2mtww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: journaldb
       auto-index-creation: true
+    redis:
+      host: redis-15713.crce179.ap-south-1-1.ec2.redns.redis-cloud.com
+      port: 15713
+      userName: Siddharth
+      password: Sid@391999
+
   main:
     allow-circular-references: true
   mail:
