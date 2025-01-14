@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ import java.util.regex.Pattern;
 @Slf4j
 public class UserService {
     private static final PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+
+    @Autowired
+    WeatherService weatherService;
+
     @Autowired
     UserRepository userRepository;
 
@@ -120,6 +125,19 @@ public class UserService {
         // Return if the username
         // matched the ReGex
         return m.matches();
+    }
+
+    public ResponseEntity<?> greetings(String userName){
+        String city = this.getUserByUserName(userName).getCity();
+        String response="";
+        if(!city.isEmpty()){
+            WeatherResponse weatherResponse = weatherService.getResponse(city);
+            if(weatherResponse != null) {
+                response = response+" today it feels like "+weatherResponse.getCurrent().getFeelslike();
+            }
+        }
+        return ResponseEntity.ok().body("Hello "+ userName+response);
+
     }
 
 }

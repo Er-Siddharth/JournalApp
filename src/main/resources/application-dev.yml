@@ -1,7 +1,6 @@
 spring:
   redis:
-    host: localhost
-    port: 6379
+    uri: redis-cli -u redis://Siddharth:Sid@391999@redis-15713.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:15713
   application:
     name: JournalApp
   data:
