@@ -1,25 +1,24 @@
 spring:
-
   application:
     name: JournalApp
   data:
     mongodb:
-      uri: mongodb+srv://Siddharth:Sid_391999@cluster0.2mtww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.2mtww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: journaldb
       auto-index-creation: true
     redis:
       host: redis-15713.crce179.ap-south-1-1.ec2.redns.redis-cloud.com
       port: 15713
-      userName: Siddharth
-      password: Sid@391999
+      userName: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
 
   main:
     allow-circular-references: true
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sidshinde391999@gmail.com
-    password: afjz mkru ehqo ctry
+    username: ${MAIL}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -43,4 +42,4 @@ server:
 #          UserService: DEBUG
 weather:
   api:
-    key: 5cb41ba4e7739d0f4b9275c05ead2854
+    key: ${WEATHER_API_KEY}
