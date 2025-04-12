@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: JournalApp # Name of the Spring Boot application
+
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.2mtww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      # MongoDB connection URI using credentials from environment variables
+      database: journaldb # Name of the MongoDB database
+      auto-index-creation: true # Automatically create indexes based on JPA annotations
+
+    redis:
+      host: redis-15713.crce179.ap-south-1-1.ec2.redns.redis-cloud.com # Redis host (cloud-based)
+      port: 15713 # Redis port
+      userName: ${REDIS_USERNAME} # Redis username from environment variable
+      password: ${REDIS_PASSWORD} # Redis password from environment variable
+
+  main:
+    allow-circular-references: true # Allows Spring to handle circular dependencies (use with caution)
+
+  mail:
+    host: smtp.gmail.com # SMTP server for sending email
+    port: 587 # SMTP port (TLS)
+    username: ${MAIL} # Email username from environment variable
+    password: ${MAIL_PASSWORD} # Email password from environment variable
+    properties:
+      mail:
+        smtp:
+          auth: true # Enable SMTP authentication
+          starttls:
+            enable: true # Enable STARTTLS encryption for email
+
+server:
+  port: 8082 # Application will run on this port
+
+# Uncomment and edit the following if you want to set a context path for your app
+# servlet:
+#   context-path: /journal
+
+# Uncomment this section for debug-level logging of the whole app or specific packages
+# logging:
+#   level:
+#     com:
+#       AsiaAutmation:
+#         JournalApp: DEBUG
+
+# Uncomment and narrow down logging to a specific service, e.g., UserService
+# logging:
+#   level:
+#     com:
+#       AsiaAutmation:
+#         JournalApp:
+#           UserService: DEBUG
+
+weather:
+  api:
+    key: ${WEATHER_API_KEY} # API key for accessing weather service, pulled from environment variable
