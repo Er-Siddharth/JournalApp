@@ -13,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
+@ActiveProfiles("dev")
 public class UserDetailsServiceImplTest {
 
     //@Autowired
@@ -40,7 +42,7 @@ public class UserDetailsServiceImplTest {
     @Test
     void testLoadUserByUsername(){
         when(userService.getUserByUserName("Sid")).thenReturn(Users.builder().userName("Sid").password("Siddharth").roles(new ArrayList<>()).build());
-        UserDetails user = userDetailsService.loadUserByUsername("abc");
+        UserDetails user = userDetailsService.loadUserByUsername("Sid");
         Assertions.assertNotNull(user);
     }
 
