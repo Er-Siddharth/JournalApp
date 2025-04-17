@@ -39,10 +39,10 @@ public class JournalService {
 
     public List<JournalEntry> getAllEntries(String username){
         Users user= userService.getUserByUserName(username);
-        if(user!=null){
+//        if(user!=null){
             return user.getEntries();
-        }
-       else throw new RuntimeException("User not found");
+//        }
+//       else throw new UsernameNotFoundException("User not found");
     }
 
     @Transactional
