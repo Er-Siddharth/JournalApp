@@ -16,6 +16,7 @@ public class EmailService {
     public void sendMail(String to, String subject, String body){
         try{
             SimpleMailMessage mail = new SimpleMailMessage();
+            mail.setFrom("do-not-reply@test.com");
             mail.setTo(to);
             mail.setSubject(subject);
             mail.setText(body);

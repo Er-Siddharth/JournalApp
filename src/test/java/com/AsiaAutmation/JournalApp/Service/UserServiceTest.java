@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
+
 public class UserServiceTest {
 
     @Autowired
@@ -56,7 +57,7 @@ public class UserServiceTest {
     }
 
 
-    @Disabled
+//    @Disabled
     @Test
     public void test(){
         assertEquals(40,20+20);

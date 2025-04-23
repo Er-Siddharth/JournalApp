@@ -4,14 +4,14 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.2mtww.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.2mtww.mongodb.net/
       # MongoDB connection URI using credentials from environment variables
       database: journaldb # Name of the MongoDB database
       auto-index-creation: true # Automatically create indexes based on JPA annotations
 
     redis:
-      host: redis-15713.crce179.ap-south-1-1.ec2.redns.redis-cloud.com # Redis host (cloud-based)
-      port: 15713 # Redis port
+      host: redis-14160.c305.ap-south-1-1.ec2.redns.redis-cloud.com  # Redis host (cloud-based)
+      port: 14160 # Redis port
       userName: ${REDIS_USERNAME} # Redis username from environment variable
       password: ${REDIS_PASSWORD} # Redis password from environment variable
 

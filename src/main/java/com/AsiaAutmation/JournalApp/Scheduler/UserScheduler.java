@@ -8,6 +8,7 @@ import com.AsiaAutmation.JournalApp.Repository.UserRepositoryImpl;
 import com.AsiaAutmation.JournalApp.Service.EmailService;
 import com.AsiaAutmation.JournalApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
@@ -36,13 +37,13 @@ public class UserScheduler {
         appCache.init();
     }
 
-    @Scheduled(cron = "0 0 * ? * *")
+    @Scheduled(cron = "0 * * ? * *")
     public void fetchUserAndSendSAEmail(){
         List<Users> usersList = userRepository.getUserForSA();
         for(Users user: usersList){
             List<JournalEntry> entries = userService.getUserEntries(user);
-            List<String> validEntries = entries.stream().filter(x-> x.getDate().isAfter(LocalDateTime.now().minusDays(7))).map(x-> x.getContent()).toList();
-            List<Sentiment> sentiments = entries.stream().filter(x-> x.getDate().isAfter(LocalDateTime.now().minusDays(7))).map(x-> x.getSentiment()).toList();
+            List<String> validEntries = entries.stream().filter(x-> x.getDate().isAfter(LocalDateTime.now().minusDays(7))).map(JournalEntry::getContent).toList();
+            List<Sentiment> sentiments = entries.stream().filter(x-> x.getDate().isAfter(LocalDateTime.now().minusDays(7))).map(JournalEntry::getSentiment).toList();
             String wholeString = String.join("\n",validEntries);
             Map<Sentiment, Integer> sentimentCount = new HashMap<>();
             Sentiment highestSentiment = null;

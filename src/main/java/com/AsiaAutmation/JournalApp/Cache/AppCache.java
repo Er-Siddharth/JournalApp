@@ -15,8 +15,6 @@ import java.util.Map;
 @Component
 public class AppCache {
 
-
-
     @Autowired
     ConfigJournalAppRepository configJournalAppRepository;
     @Getter
@@ -24,8 +22,8 @@ public class AppCache {
     @PostConstruct
     public void init(){
         appCache = new HashMap<>();
-        List<ConfigJournalApp> allEnrty  = configJournalAppRepository.findAll();
-        for(ConfigJournalApp entry : allEnrty){
+        List<ConfigJournalApp> allEntry = configJournalAppRepository.findAll();
+        for(ConfigJournalApp entry : allEntry){
             appCache.put(entry.getKey(), entry.getValue());
         }
         System.out.println("Cache-Reloaded "+ LocalDateTime.now());

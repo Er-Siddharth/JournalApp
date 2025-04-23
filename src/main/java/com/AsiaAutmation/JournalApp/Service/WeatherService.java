@@ -39,7 +39,7 @@ public class WeatherService {
             //httpHeaders.add("password","admin");
             //HttpEntity<String> httpEntity = new HttpEntity<>("Hello there",httpHeaders);
             ResponseEntity<WeatherResponse> response1 = restTemplate.exchange(finalApi, HttpMethod.GET, null, WeatherResponse.class);
-            redisService.set(city,response1.getBody(),300l);
+            redisService.set(city,response1.getBody(), 300L);
             //ResponseEntity<WeatherResponse> response2 = restTemplate.exchange(finalApi, HttpMethod.POST, httpEntity, WeatherResponse.class);
             return response1.getBody();
         }
