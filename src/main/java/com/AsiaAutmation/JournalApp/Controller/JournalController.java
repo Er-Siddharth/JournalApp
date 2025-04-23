@@ -1,16 +1,16 @@
 package com.AsiaAutmation.JournalApp.Controller;
 
 import com.AsiaAutmation.JournalApp.Entity.JournalEntry;
+import com.AsiaAutmation.JournalApp.Enums.Exceptions;
+import com.AsiaAutmation.JournalApp.Exception.NoJournalEntriesFoundException;
 import com.AsiaAutmation.JournalApp.Service.JournalService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.internal.CustomizerRegistry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,18 +37,18 @@ public class JournalController {
 
     @GetMapping("/getAllEntries")
     public ResponseEntity<?> getAllEntries() {
-        try {
+//        try {
             String username  = SecurityContextHolder.getContext().getAuthentication().getName();
             List<JournalEntry> entries = journalService.getAllEntries(username);
             if (entries != null && !entries.isEmpty()) {
                 return new ResponseEntity<>(entries, HttpStatus.FOUND);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                throw new NoJournalEntriesFoundException(Exceptions.NO_JOURNAL_ENTRIES_FOUND);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
     }
 
     @DeleteMapping("/id/{myId}")

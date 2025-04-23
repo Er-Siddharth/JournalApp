@@ -34,7 +34,5 @@ public class RedisService {
         } catch (JsonProcessingException e) {
             log.error("Exception Occured : "+e);
         }
-
-
     }
 }

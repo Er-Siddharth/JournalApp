@@ -27,7 +27,7 @@ public class UserRepositoryImplTest {
 
     @Test
     public void getCity(){
-        Assertions.assertEquals("Pune",userRepository.findCityByUserName("Siddharth").get().getCity());
+        Assertions.assertEquals("Mumbai",userRepository.findCityByUserName("Siddharth").get().getCity());
     }
 
 }

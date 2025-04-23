@@ -11,11 +11,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
+@ActiveProfiles("test")
+
 public class UserServiceTest {
 
     @Autowired
@@ -56,7 +57,7 @@ public class UserServiceTest {
     }
 
 
-    @Disabled
+//    @Disabled
     @Test
     public void test(){
         assertEquals(40,20+20);

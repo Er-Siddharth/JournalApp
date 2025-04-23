@@ -2,6 +2,8 @@ package com.AsiaAutmation.JournalApp.Service;
 
 import com.AsiaAutmation.JournalApp.Entity.JournalEntry;
 import com.AsiaAutmation.JournalApp.Entity.Users;
+import com.AsiaAutmation.JournalApp.Enums.Exceptions;
+import com.AsiaAutmation.JournalApp.Exception.UserNotFoundException;
 import com.AsiaAutmation.JournalApp.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -9,6 +11,7 @@ import org.bson.types.ObjectId;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -89,7 +92,7 @@ public class UserService {
     }
 
     public Users getUserByUserName(String username){
-        return userRepository.findByUserName(username).orElse(null);
+        return userRepository.findByUserName(username).orElseThrow(()-> new UserNotFoundException(Exceptions.USER_NOT_FOUND));
     }
 
     public boolean deleteUser(String username){
