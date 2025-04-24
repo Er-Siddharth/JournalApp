@@ -30,7 +30,6 @@ public class JournalController {
             entry.setDate(LocalDateTime.now());
             return new ResponseEntity<>(journalService.addEntry(entry, username), HttpStatus.CREATED);
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

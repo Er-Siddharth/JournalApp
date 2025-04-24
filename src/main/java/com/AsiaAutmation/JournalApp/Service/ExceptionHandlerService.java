@@ -1,6 +1,7 @@
 package com.AsiaAutmation.JournalApp.Service;
 
 import com.AsiaAutmation.JournalApp.Enums.Exceptions;
+import com.AsiaAutmation.JournalApp.Exception.InvalidArgumentException;
 import com.AsiaAutmation.JournalApp.Exception.NoJournalEntriesFoundException;
 import com.AsiaAutmation.JournalApp.Exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,13 @@ public class ExceptionHandlerService {
         return new ErrorResponse(ex.getMessage(),ex.getDescription(),ex.getTime());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({InvalidArgumentException.class})
+    public ErrorResponse invalidArgsException(final InvalidArgumentException invalidArgumentException){
+        log.warn("Invalid arguments passed", invalidArgumentException);
+        Exceptions ex = invalidArgumentException.getException();
+        return new ErrorResponse(ex.getMessage(), ex.getDescription(), ex.getTime());
+    }
 
 //    private ResponseEntity<ErrorResponse> makeResponseEntity(final Exceptions exception){
 //        return new ResponseEntity<>(new ErrorResponse(exception.getMessage(),exception.getDescription(),exception.getTime()),HttpStatus.BAD_REQUEST );

@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping("/greetings")
     public ResponseEntity<?> greetings(){
         String userName  = SecurityContextHolder.getContext().getAuthentication().getName();
-        return   userService.greetings(userName);
+        return  userService.greetings(userName);
     }
 
 }

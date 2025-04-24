@@ -13,7 +13,8 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequiredArgsConstructor
 public enum Exceptions {
     USER_NOT_FOUND("USER NOT FOUND","User does not exist", LocalDateTime.now()),
-    NO_JOURNAL_ENTRIES_FOUND("JOURNAL ENTRIES NO CONTENT", "No journal entries present", LocalDateTime.now())
+    NO_JOURNAL_ENTRIES_FOUND("JOURNAL ENTRIES NO CONTENT", "No journal entries present", LocalDateTime.now()),
+    INVALID_ARGS("INVALID ARGUMENTS","Invalid or empty arguments passed", LocalDateTime.now())
     ;
     private final String message;
     private final String description;
