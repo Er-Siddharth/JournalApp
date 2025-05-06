@@ -7,6 +7,7 @@ import com.AsiaAutmation.JournalApp.Exception.InvalidArgumentException;
 import com.AsiaAutmation.JournalApp.Exception.UserNotFoundException;
 import com.AsiaAutmation.JournalApp.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -65,16 +66,34 @@ public class UserService {
     }
 
 
-
     public boolean updateUser(Users user, String userName) {
         Users existingUser = getUserByUserName(userName);
         if (existingUser != null) {
             existingUser.setUserName(user.getUserName());
             existingUser.setPassword(user.getPassword());
-            this.addUser(existingUser);
+            if(user.getEmail() != null && !user.getEmail().isBlank()) existingUser.setEmail(user.getEmail());
+            if(user.getCity() != null && !user.getCity().isBlank()) existingUser.setCity(user.getCity());
+            existingUser.setSentimentAnalysis(user.getSentimentAnalysis() == null ? existingUser.getSentimentAnalysis() : user.getSentimentAnalysis());
+            this.addUser( existingUser);
             return true;
         } else return false;
     }
+
+    public boolean updateUser(Users user, String userName, List<String> roles){
+        Users existingUser = getUserByUserName(userName);
+        if (existingUser != null) {
+            if(roles !=null && !roles.isEmpty()) existingUser.setRoles(roles);
+            existingUser.setUserName(user.getUserName());
+            existingUser.setPassword(user.getPassword());
+            if(user.getEmail() != null && !user.getEmail().isBlank()) existingUser.setEmail(user.getEmail());
+            if(user.getCity() != null && !user.getCity().isBlank()) existingUser.setCity(user.getCity());
+            existingUser.setSentimentAnalysis(user.getSentimentAnalysis() == null ? existingUser.getSentimentAnalysis() : user.getSentimentAnalysis());
+            this.saveUser(existingUser);
+            return true;
+        }
+        else return false;
+    }
+
 
 
     public Optional<Users> findUser(ObjectId id) {
@@ -82,8 +101,7 @@ public class UserService {
     }
 
     public Users getUserFromOptional(Optional<Users> user) {
-        if (user.isPresent()) return user.get();
-        else return null;
+        return user.orElseThrow(()-> new UserNotFoundException(Exceptions.USER_NOT_FOUND));
     }
 
     public List<JournalEntry> getUserEntries(Users user) {
@@ -95,8 +113,8 @@ public class UserService {
         return userRepository.findByUserName(username).orElseThrow(() -> new UserNotFoundException(Exceptions.USER_NOT_FOUND));
     }
 
-    public boolean deleteUser(String username) throws UserNotFoundException {
-            this.getUserByUserName(username);
+    public boolean deleteUser(String username) {
+            getUserByUserName(username);
             userRepository.deleteUserByUserName(username);
             return true;
     }

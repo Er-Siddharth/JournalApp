@@ -36,7 +36,6 @@ public class JournalController {
 
     @GetMapping("/getAllEntries")
     public ResponseEntity<?> getAllEntries() {
-//        try {
             String username  = SecurityContextHolder.getContext().getAuthentication().getName();
             List<JournalEntry> entries = journalService.getAllEntries(username);
             if (entries != null && !entries.isEmpty()) {
@@ -44,10 +43,6 @@ public class JournalController {
             } else {
                 throw new NoJournalEntriesFoundException(Exceptions.NO_JOURNAL_ENTRIES_FOUND);
             }
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
     }
 
     @DeleteMapping("/id/{myId}")

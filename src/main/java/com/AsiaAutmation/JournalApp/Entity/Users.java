@@ -1,12 +1,13 @@
 package com.AsiaAutmation.JournalApp.Entity;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,9 @@ public class Users {
     @DBRef
     private List<JournalEntry> entries;
     private List<String> roles;
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
-    private boolean sentimentAnalysis;
+    private Boolean sentimentAnalysis;
     private String city;
 
 }

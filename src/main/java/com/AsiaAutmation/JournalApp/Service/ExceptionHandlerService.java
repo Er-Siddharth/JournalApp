@@ -7,11 +7,16 @@ import com.AsiaAutmation.JournalApp.Exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.net.http.HttpRequest;
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -39,6 +44,25 @@ public class ExceptionHandlerService {
         log.warn("Invalid arguments passed", invalidArgumentException);
         Exceptions ex = invalidArgumentException.getException();
         return new ErrorResponse(ex.getMessage(), ex.getDescription(), ex.getTime());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+            log.warn(String.format("%s : %s", fieldName,message));
+        });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidParameterException.class)
+    public ErrorResponse EntryDoesNotExist(InvalidParameterException exception){
+        log.warn(exception.getMessage());
+        return new ErrorResponse("No Such Entry", exception.getMessage(), LocalDateTime.now());
     }
 
 //    private ResponseEntity<ErrorResponse> makeResponseEntity(final Exceptions exception){
