@@ -1,8 +1,8 @@
 package com.AsiaAutmation.JournalApp.Controller;
 
+import com.AsiaAutmation.JournalApp.Dto.UserRightsUpdateRequest;
 import com.AsiaAutmation.JournalApp.Entity.Users;
-import com.AsiaAutmation.JournalApp.Enums.Exceptions;
-import com.AsiaAutmation.JournalApp.Exception.InvalidArgumentException;
+import com.AsiaAutmation.JournalApp.Mapper.UserMapper;
 import com.AsiaAutmation.JournalApp.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserMapper userMapper;
 
     @GetMapping("/get-all-users")
     public ResponseEntity<?> getAllUsers() {
@@ -33,7 +36,7 @@ public class AdminController {
 
     @DeleteMapping("/delete-user")
     public ResponseEntity<?> deleteUser(@RequestParam(value = "userName") String userName) {
-        if(userService.deleteUser(userName)) return ResponseEntity.ok().body(null);
+        if (userService.deleteUser(userName)) return ResponseEntity.ok().body(null);
         else return ResponseEntity.internalServerError().body(null);
     }
 
@@ -44,20 +47,24 @@ public class AdminController {
     }
 
     @GetMapping("/get-user-details")
-    public ResponseEntity<?> getUserDetails(@RequestParam(value = "userName") String userName){
-         Users user = userService.getUserByUserName(userName);
-         return ResponseEntity.ok().body(user);
+    public ResponseEntity<?> getUserDetails(@RequestParam(value = "userName") String userName) {
+        Users user = userService.getUserByUserName(userName);
+        return ResponseEntity.ok().body(user);
     }
 
     @GetMapping("/update-admin")
-    public ResponseEntity<?> updateAdmin(@RequestBody @Valid Users user){
-       if (userService.updateUser(user, user.getUserName())) return ResponseEntity.ok().body("User updated successfully");
-       else return ResponseEntity.internalServerError().body(null);
+    public ResponseEntity<?> updateAdmin(@RequestBody @Valid Users user) {
+        if (userService.updateUser(user, user.getUserName()))
+            return ResponseEntity.ok().body("User updated successfully");
+        else return ResponseEntity.internalServerError().body(null);
     }
 
-    @PostMapping("/change-user-rights")
-    public ResponseEntity<?> changeRights(@RequestParam(value = "userName") String userName, @RequestBody List<String> roles) {
-        if(userService.updateRights(userName, roles)) return ResponseEntity.ok().body("User updated successfully");
-        else return ResponseEntity.internalServerError().body(null);
+    @PatchMapping("/change-user-rights")
+    public ResponseEntity<?> changeRights(
+            @RequestParam(value = "userName") String userName,
+            @RequestBody UserRightsUpdateRequest request) {
+        Users user = userService.updateRights(userName, request);
+         if (user != null) return ResponseEntity.ok().body(userMapper.toDto(user));
+         else return ResponseEntity.internalServerError().body("Failed to update rights");
     }
 }

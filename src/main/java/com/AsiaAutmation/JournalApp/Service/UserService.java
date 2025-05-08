@@ -1,10 +1,12 @@
 package com.AsiaAutmation.JournalApp.Service;
 
+import com.AsiaAutmation.JournalApp.Dto.UserRightsUpdateRequest;
 import com.AsiaAutmation.JournalApp.Entity.JournalEntry;
 import com.AsiaAutmation.JournalApp.Entity.Users;
 import com.AsiaAutmation.JournalApp.Enums.Exceptions;
 import com.AsiaAutmation.JournalApp.Exception.InvalidArgumentException;
 import com.AsiaAutmation.JournalApp.Exception.UserNotFoundException;
+import com.AsiaAutmation.JournalApp.Mapper.UserMapper;
 import com.AsiaAutmation.JournalApp.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
@@ -32,6 +34,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserMapper userMapper;
 
     public Users addUser(Users user) {
         if (!isValidUsername(user.getUserName())) throw new IllegalArgumentException("Invalid UserName");
@@ -79,14 +84,13 @@ public class UserService {
         } else return false;
     }
 
-    public boolean updateRights(String userName, List<String> roles){
+    public Users updateRights(String userName, UserRightsUpdateRequest request){
         Users existingUser = getUserByUserName(userName);
         if (existingUser != null) {
-            existingUser.setRoles(roles);
-            this.saveUser(existingUser);
-            return true;
+            userMapper.updateRoles(request, existingUser);
+            return this.saveUser(existingUser);
         }
-        else return false;
+        else return null;
     }
 
     public Optional<Users> findUser(ObjectId id) {

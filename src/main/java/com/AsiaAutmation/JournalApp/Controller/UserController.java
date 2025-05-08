@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<?> deleteUser(){
         String userName  = SecurityContextHolder.getContext().getAuthentication().getName();
         if(userService.deleteUser(userName)){
-            return ResponseEntity.ok().body(null);
+            return ResponseEntity.ok().body("User Deleted Successfully");
         }
         else {
             return ResponseEntity.badRequest().body(null);
