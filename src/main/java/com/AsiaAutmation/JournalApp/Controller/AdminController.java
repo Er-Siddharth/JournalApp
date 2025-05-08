@@ -32,7 +32,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete-user")
-    public ResponseEntity<?> deleteUser(@RequestParam(value = "userName", required = false) String userName) {
+    public ResponseEntity<?> deleteUser(@RequestParam(value = "userName") String userName) {
         if(userService.deleteUser(userName)) return ResponseEntity.ok().body(null);
         else return ResponseEntity.internalServerError().body(null);
     }
@@ -44,13 +44,20 @@ public class AdminController {
     }
 
     @GetMapping("/get-user-details")
-    public ResponseEntity<?> getUserDetails(@RequestParam(value = "userName", required = false) String userName){
+    public ResponseEntity<?> getUserDetails(@RequestParam(value = "userName") String userName){
          Users user = userService.getUserByUserName(userName);
          return ResponseEntity.ok().body(user);
     }
 
     @GetMapping("/update-admin")
     public ResponseEntity<?> updateAdmin(@RequestBody @Valid Users user){
-        userService.updateUser(user, user.getUserName())
+       if (userService.updateUser(user, user.getUserName())) return ResponseEntity.ok().body("User updated successfully");
+       else return ResponseEntity.internalServerError().body(null);
+    }
+
+    @PostMapping("/change-user-rights")
+    public ResponseEntity<?> changeRights(@RequestParam(value = "userName") String userName, @RequestBody List<String> roles) {
+        if(userService.updateRights(userName, roles)) return ResponseEntity.ok().body("User updated successfully");
+        else return ResponseEntity.internalServerError().body(null);
     }
 }

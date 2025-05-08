@@ -65,7 +65,6 @@ public class UserService {
         return true;
     }
 
-
     public boolean updateUser(Users user, String userName) {
         Users existingUser = getUserByUserName(userName);
         if (existingUser != null) {
@@ -73,28 +72,22 @@ public class UserService {
             existingUser.setPassword(user.getPassword());
             if(user.getEmail() != null && !user.getEmail().isBlank()) existingUser.setEmail(user.getEmail());
             if(user.getCity() != null && !user.getCity().isBlank()) existingUser.setCity(user.getCity());
+            if(!user.getRoles().isEmpty()) existingUser.setRoles(user.getRoles());
             existingUser.setSentimentAnalysis(user.getSentimentAnalysis() == null ? existingUser.getSentimentAnalysis() : user.getSentimentAnalysis());
-            this.addUser( existingUser);
+            this.addUser(existingUser);
             return true;
         } else return false;
     }
 
-    public boolean updateUser(Users user, String userName, List<String> roles){
+    public boolean updateRights(String userName, List<String> roles){
         Users existingUser = getUserByUserName(userName);
         if (existingUser != null) {
-            if(roles !=null && !roles.isEmpty()) existingUser.setRoles(roles);
-            existingUser.setUserName(user.getUserName());
-            existingUser.setPassword(user.getPassword());
-            if(user.getEmail() != null && !user.getEmail().isBlank()) existingUser.setEmail(user.getEmail());
-            if(user.getCity() != null && !user.getCity().isBlank()) existingUser.setCity(user.getCity());
-            existingUser.setSentimentAnalysis(user.getSentimentAnalysis() == null ? existingUser.getSentimentAnalysis() : user.getSentimentAnalysis());
+            existingUser.setRoles(roles);
             this.saveUser(existingUser);
             return true;
         }
         else return false;
     }
-
-
 
     public Optional<Users> findUser(ObjectId id) {
         return userRepository.findById(id);
